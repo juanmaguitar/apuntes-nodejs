@@ -1,4 +1,11 @@
-# Modulos node (required)
+# Modulos node (`require`)
+
+
+- http
+- url
+- path
+- fs
+- util
 
 ## [http](https://nodejs.org/api/http.html#http_http)
 
@@ -6,11 +13,34 @@ Maneja servidores y clientes HTTP desde node
 
     var http = require('http');
 
-- [`http.createServer`](https://nodejs.org/api/http.html#http_http_createserver_requestlistener) devuelve una instancia (_server_) de [`http.Server`](https://nodejs.org/api/http.html#http_class_http_server)
+### [`http.createServer`](https://nodejs.org/api/http.html#http_http_createserver_requestlistener) 
 
-    - [`server.listen(port)`](https://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback) inicia un socket escuchando las conexiones en el puerto especificado
+```javascript
+http.createServer([requestListener])
+```
+
+Devuelve una instancia (_server_) de [`http.Server`](https://nodejs.org/api/http.html#http_class_http_server) → `server`
+
+```javascript
+var server = http.createServer();
+ 
+server.on("request", function (req, res) {
+    res.end("this is the response");
+});
+ 
+server.listen(3000);
+```
+
+Si se le pasa el callback `requestListener` (opcional) se añadirá automaticamente al evento `request`
+
+```javascript
+var server = http.createServer(function(request, response) {
+  // magic happens here!
+});
+```
 
 
+- [`server.listen(port)`](https://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback) inicia un socket escuchando las conexiones en el puerto especificado
 
 
 ## [url](https://nodejs.org/api/url.html)
@@ -68,7 +98,7 @@ path.normalize('/foo/bar//baz/asdf/quux/..') // returns '/foo/bar/baz/asdf'
 _FileSystem_. Manejo de archivos desde node.js
 
     var fs = require('fs');
-
+z
 
 -  [`fs.stat()`](https://nodejs.org/api/fs.html#fs_fs_stat_path_callback), [`fs.statSync()`](https://nodejs.org/api/fs.html#fs_fs_statsync_path), [`fs.lstat()`](https://nodejs.org/api/fs.html#fs_fs_lstat_path_callback), [`fs.lstatSync()`](https://nodejs.org/api/fs.html#fs_fs_lstatsync_path), [`fs.fstat()`](https://nodejs.org/api/fs.html#fs_fs_fstat_fd_callback) y [`fs.fstatSync()`](https://nodejs.org/api/fs.html#fs_fs_fstatsync_fd) devuelve una instancia (_stats_) de [`fs.Stats`](https://nodejs.org/api/fs.html#fs_class_fs_stats)
 
@@ -81,3 +111,9 @@ _FileSystem_. Manejo de archivos desde node.js
     stats.isFIFO()
     stats.isSocket()
 ```
+
+
+
+
+
+

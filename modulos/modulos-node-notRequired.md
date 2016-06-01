@@ -1,4 +1,4 @@
-# Modulos node (not required)
+# Modulos node (_core_)
 
 ##[process](https://nodejs.org/api/process.html)
 
