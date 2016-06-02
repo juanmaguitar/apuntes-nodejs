@@ -11,7 +11,7 @@ server.on('request', function(request, response) {
 });
 ```
 
-[`createServer()`](https://nodejs.org/api/http.html#http_http_createserver_requestlistener) devuelve un objeto [`server`]instancia de [`http.Server`](https://nodejs.org/api/http.html#http_class_http_server) que es un `EventEmitter` con varios eventos asociados, entre ellos el evento _request_.
+[`createServer()`](https://nodejs.org/api/http.html#http_http_createserver_requestlistener) devuelve un objeto (`server`)instancia de [`http.Server`](https://nodejs.org/api/http.html#http_class_http_server) que es un `EventEmitter` con varios eventos asociados, entre ellos el [evento `request`](https://nodejs.org/api/http.html#http_event_request).
 
 Cada vez que se produce una petición se lanza el evento _request_.
 El objeto `server` le pasa al event handler de este evento _request_ los objetos `request` y `response` para manejar la transacción.
