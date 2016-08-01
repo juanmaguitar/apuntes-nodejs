@@ -40,6 +40,9 @@ http.createServer(function(request, response) {
 }).listen(8080)
 ```
 
+```bash
+  curl --data "juanma is my name" http://localhost:8080
+```
 
 ### Subir archivos al servidor
 
@@ -58,7 +61,7 @@ http.createServer(function(request, response) {
 ```
 
 ```bash
-curl --upload-file readme.md http://localhost:8080ç
+curl --upload-file readme.md http://localhost:8080
 ```
 
 Debido a las caracteristicas de node y de streams la subida de archivos con node 
