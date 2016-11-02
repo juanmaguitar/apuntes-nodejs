@@ -1,5 +1,66 @@
 # Examples streams
 
+```javascript
+var http = require('http');
+var fs = require('fs');
+
+var server = http.createServer(function (request, response) {
+
+    var streamRead = fs.createReadStream(__dirname + '/demo.txt');
+
+   //  streamRead.on("data", function(data) {
+            // response.write(data);
+   //  });
+
+   //  streamRead.on("end", function(data) {
+            // response.end();
+   //  });
+
+    streamRead.pipe( response );
+
+});
+
+server.listen(8000);
+```
+
+```javascript
+var fs = require("fs");
+var srcFile = fs.createReadStream('input.txt');
+var outputFile = fs.createWriteStream('output.txt');
+
+srcFile
+    .pipe(outputFile)
+
+// srcFile.on('data', function(data) {
+//   outputFile.write(data);
+// });
+
+// srcFile.on('end', function() {
+//   outputFile.end();
+// });
+```
+
+```javascript
+/* Write a program that performs an HTTP GET request to a URL provided to you  as the first command-line argument. Write the String contents of each  "data" event from the response to a new line on the console (stdout).  */
+
+var http = require('http');
+var requiredUrl = process.argv[2];
+
+http.get(requiredUrl, function(response) {
+    response.setEncoding('utf8')
+    response.pipe( process.stdout )
+    // response.on("data", function(strChunkData) {
+    //  console.log(strChunkData);
+    // })
+    //response.on("data", handleStrChunkData)
+    //response.on("data", console.log)
+})
+
+// function handleStrChunkData(data) {
+//  console.log(data);
+// }
+```
+
 ## [`through2`](https://www.npmjs.com/package/through2)
 
 To make a **Transform stream** (Duplex stream) out of a function. To pipe read and write and add filters in between.
