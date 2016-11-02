@@ -80,6 +80,99 @@ myReadFileStream
     .pipe(myWriteFileStream)
 ```
 
+```javascript
+var fs = require('fs')
+var split = require('split');
+var through = require('through2');
+
+var fileStream = fs.createReadStream('data.txt');
+var writeStream = fs.createWriteStream('output.txt');
+var counter = 0;
+//var finalContent = "";
+
+// linedFileStream.on('data', function ( myLine ) {
+//      counter++;
+//      console.log ("(" + counter + ") " + myLine.toString() );
+//      finalContent += myLine.toString();
+//  })
+
+fileStream
+    .pipe( split() )
+    .pipe( through(function( line, _ , next) {
+        var strLine = line.toString();
+        var strLine = strLine.replace("fuck", "********");
+        var strLine = strLine.replace("shit", "########");
+        var strLine = strLine.replace("bitch", "%%%%%%%");
+        this.push( strLine + "\n");
+        next();
+    }) )
+    .pipe( writeStream )
+```
+
+```javascript
+var split = require('split');
+var through2 = require('through2');
+var counter = 1;
+
+var streamProcesserLines = through2( processOddEvenLines );
+
+process.stdin
+    .pipe( split() )
+    .pipe( streamProcesserLines )
+        .pipe( process.stdout );
+
+
+function processOddEvenLines( lineChunk, _, next ) {
+        var strLine = lineChunk.toString();
+        var isEven = (counter%2 === 0);
+        this.push ( getFormattedLine(strLine,isEven) + '\n' );
+        counter++;
+    next();
+}
+
+function getFormattedLine ( txt, isEven ) {
+    return isEven ? txt.toUpperCase() : txt.toLowerCase();
+}
+
+// echo -e 'one\ntwo\nthree\ntwo\nthree\ntwo\nthree\ntwo\nthree\ntwo\nthree' | node app.js
+```
+
+```javascript
+var http = require('http');
+var through = require('through2');
+
+/* through */
+var streamHandlerRequest = through( writeUpperCase );
+function writeUpperCase( bufferChunk, _ , next ) {
+    strChunk = bufferChunk.toString();
+    this.push( strChunk.toUpperCase() );
+    next();
+}
+
+var server = http.createServer();
+
+server.on("request", function( request, response ) {
+
+    if (request.method === "POST") {
+        request
+            .pipe( streamHandlerRequest )
+            .pipe( response ) // writes in the client's device
+            //.pipe( process.stdout ) // writes in the server's console
+    }
+    else {
+            console.log ("gimme POST please...");
+    }
+
+
+})
+
+server.on("listening", function() {
+    console.log ("listening on port 3004...");
+});
+
+server.listen(3004);
+```
+
 ## [`concat-stream`](https://www.npmjs.com/package/concat-stream)
 
 **Writable stream** that concatenates all the data from a stream and calls a callback with the result. Use this when you want to collect all the data from a stream into a single buffer.
